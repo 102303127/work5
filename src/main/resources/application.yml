@@ -1,0 +1,98 @@
+#设置环境
+spring:
+  profiles:
+    include: local
+
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://${host.database.ip}:3306/westtext?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: ${host.database.pwd}
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #数据库连接池
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall,log4j
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
+  #redis配置
+  redis:
+    host: ${host.redis.ip}
+    port: 6379
+    password: ${host.redis.pwd}
+
+  # 消息队列设置
+  rabbitmq:
+    host: 39.101.207.21
+    port: 5672
+    virtual-host: /work5
+    password: 123456
+    username: work5
+    listener:
+      simple:
+        prefetch: 1   #处理完1条才可以处理下一条
+  jackson:
+    default-property-inclusion: non_null
+
+  #允许循环引用
+  main:
+    allow-circular-references: true
+
+  #Spring Cache配置
+  cache:
+    #类型指定redis
+    type: redis
+    redis:
+      #一个小时，以毫秒为单位
+      time-to-live: 3600000
+      #给缓存的建都起一个前缀。
+      #如果指定了前缀就用我们指定的，如果没有就默认使用缓存的名字作为前缀,一般不指定
+      #spring.cache.redis.key-prefix=CACHE_
+      #指定是否使用前缀
+      use-key-prefix: true
+      #是否缓存空值，防止缓存穿透
+      cache-null-values: true
+
+
+
+
+
+  # 文件接收设置
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+
+server:
+  tomcat:
+    max-swallow-size: 100
+
+
+#mybatisplus配置
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: assign_id
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  #输出数据库操作log
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+

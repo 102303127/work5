@@ -25,7 +25,7 @@ public class QuartzConfig {
     public Trigger CallPayQuartzTaskTrigger() {
         return TriggerBuilder.newTrigger().forJob(RedisToMysqlQuartz())
                 .withIdentity("CallPayQuartzTask")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 12 * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * * * ?"))
                 .build();
     }
 

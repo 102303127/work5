@@ -36,12 +36,10 @@ public class RedisToMysqlTask extends QuartzJobBean {
         for (int i = 0; i < messageListSize; i++) {
             // 从头到尾取出链表中的元素
             Chat chat = (Chat) redisUtil.lGetIndex("chat", i);
-            //数据库中已有的不再写入
-            //或者未读消息也不写入
-            if ((chatService.getById(chat.getId()) != null) || !chat.isStatus()) continue;
+            //未读消息不写入
+            if (chat != null && !chat.isStatus()) continue;
             // 向数据库写入数据
             boolean result = chatService.save(chat);
-
             if (result) {
                 // 写入成功
                 resultCount++;

@@ -40,8 +40,8 @@ spring:
     host: 39.101.207.21
     port: 5672
     virtual-host: /work5
-    password: 123456
     username: work5
+    password: 123456
     listener:
       simple:
         prefetch: 1   #处理完1条才可以处理下一条
@@ -66,10 +66,6 @@ spring:
       use-key-prefix: true
       #是否缓存空值，防止缓存穿透
       cache-null-values: true
-
-
-
-
 
   # 文件接收设置
   servlet:

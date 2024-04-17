@@ -9,6 +9,7 @@ import com.zhang.service.UserService;
 import com.zhang.utils.JwtUtils;
 import com.zhang.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -121,9 +122,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper , User>
      * @return
      */
     @Override
-    public boolean update(User user) {
+    @Cacheable(value = "users", key = "#user.username")
+    public void update(User user) {
         user.setUpdatedAt(new Date());
-        return userMapper.updateById(user) != 0;
+        userMapper.updateById(user);
+    }
+
+    @Override
+    @Cacheable(value = "users", key = "#userId")
+    public User getUserById(String userId) {
+        return userMapper.selectById(userId);
     }
 
 

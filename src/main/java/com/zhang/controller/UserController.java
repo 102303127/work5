@@ -81,7 +81,7 @@ public class UserController {
     @GetMapping("/info")
     public result getUser(@RequestParam("userId") String userId){
         if (userId.isEmpty())throw new UserException("用户ID信息不可为空");
-        User user = userService.getById(userId);
+        User user = userService.getUserById(userId);
         boolean flag= user != null;
         return new result(new base(flag?10000:-1,flag ? "success":"用户查询失败，请重试"),user);
     }

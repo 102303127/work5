@@ -85,12 +85,16 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, Chat> implements Ch
     public List<Chat> getPmHistory(User user, User toUser, Integer pageNum, Integer pageSize) {
         ArrayList<Chat> chats = new ArrayList<>();
         /**
-         * 在数据库中
+         * 在数据库中查询相关的聊天记录
          */
         QueryWrapper<Chat> qw = new QueryWrapper<>();
         qw.eq("from_user_id",user.getId())
                 .eq("to_user_id",toUser.getId())
-                .eq("status",true);
+                .or()
+                .eq("from_user_id",toUser.getId())
+                .eq("to_user_id",user.getId());
+
+        qw.eq("status",1);
         List<Chat> chats1 = chatMapper.selectList(qw);
         chats.addAll(chats1);
         /**

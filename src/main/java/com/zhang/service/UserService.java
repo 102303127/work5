@@ -12,6 +12,8 @@ public interface UserService extends IService<User> {
 
     boolean register(String username,String password);
     Map<String, String> login(String username, String password);
-    boolean update(User user);
     UserDetails loadUserByUsername(String username);
+    void update(User user);
+
+    User getUserById(String userId);
 }

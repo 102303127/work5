@@ -8,6 +8,7 @@ import com.zhang.service.ChatService;
 import com.zhang.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -57,6 +58,8 @@ public class WebSocketServer {
      */
     @OnOpen
     public void onOpen(Session session) {
+        String name = session.getUserPrincipal().getName();
+        UserDetails userDetails = userService.loadUserByUsername(session.getUserPrincipal().getName());
         this.fromUser= (User) userService.loadUserByUsername(session.getUserPrincipal().getName());
         sessionMap.put(this.fromUser.getUsername(), session);
         // 后台发送消息给所有的客户端

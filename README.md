@@ -104,19 +104,19 @@
 >运行主节点
 
 ```
-docker run -d --name redis-master -p 6379:6379 redis --requirepass Yj20o48zLkCwI1h112500
+docker run -d --name redis-master -p 6379:6379 redis --requirepass xxx
 ```
 
 >部署从节点1
 
 ```
-docker run -d --name redis-slave1 -p 6380:6379 redis --requirepass Yj20o48zLkCwI1h112500 --slaveof redis-master 6379
+docker run -d --name redis-slave1 -p 6380:6379 redis --requirepass xxx --slaveof redis-master 6379
 ```
 
 >部署从节点2
 
 ```
-docker run -d --name redis-slave2 -p 6381:6379 redis --requirepass Yj20o48zLkCwI1h112500 --slaveof redis-master 6379
+docker run -d --name redis-slave2 -p 6381:6379 redis --requirepass xxx --slaveof redis-master 6379
 ```
 
 
